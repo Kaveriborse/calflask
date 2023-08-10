@@ -1,4 +1,5 @@
-from flask import Flask,request,render_template
+from flask import Flask,request,render_template,jsonify
+import json
 
 app=Flask(__name__)  #initialization of app i.e main module
 
@@ -8,7 +9,7 @@ app=Flask(__name__)  #initialization of app i.e main module
 def welcome():
     return "Welcome to the Flask"
 
-@app.route('/cal',method=["GET"])
+@app.route('/cal',methods=['GET'])
 def math_operator():
     #we get the nos from html or postman
     operation=request.json["operation"]
@@ -16,15 +17,16 @@ def math_operator():
     num2=request.json["num2"]
 
     if operation=="add":
-        result=num1+num2
+        result=int(num1)+int(num2)
     elif operation=="multiply":
-        result=num1*num2
+        result=int(num1)*int(num2)
     elif operation=="division":
-        result=num1/num2
+        result=int(num1)/int(num2)
     else:
-        result=num1-num2
-    return result
+        result=int(num1)-int(num2)
+    return jsonify(result)
 
+#jsonify converting input into json 
 #for input using html we use request bcz it is client server application
 #client is browser
 
